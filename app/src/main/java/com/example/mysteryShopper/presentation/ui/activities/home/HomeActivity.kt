@@ -2,6 +2,7 @@ package com.example.mysteryShopper.presentation.ui.activities.home
 
 import CharacterAdapter
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.mysteryShopper.R
 import com.example.mysteryShopper.core.Status
 import com.example.mysteryShopper.databinding.ActivityHomeBinding
+import com.example.mysteryShopper.presentation.ui.activities.details.DetailsActivity
 import com.example.mysteryShopper.presentation.ui.common.BaseActivity
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -31,8 +33,10 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
 
     private fun setupRecyclerView() {
         characterAdapter = CharacterAdapter { character ->
-            Toast.makeText(this, "Clicked on: ${character.name}", Toast.LENGTH_SHORT).show()
-        }
+            val intent = Intent(this, DetailsActivity::class.java)
+            intent.putExtra("character", character)
+            startActivity(intent)
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)        }
 
         binding.recyclerViewCharacters.apply {
             layoutManager = LinearLayoutManager(this@HomeActivity)

@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.mysteryShopper.data.model.CharacterModel
 import com.example.mysteryShopper.databinding.ListItemCharacterBinding
 
@@ -43,6 +44,7 @@ class CharacterAdapter(
                 // Load character data
                 Glide.with(itemView)
                     .load(character?.thumbnail?.imageUrl?.replace("http://", "https://"))
+                    .transition(DrawableTransitionOptions.withCrossFade())
                     .into(binding.characterImage)
 
                 binding.characterName.text = character?.name

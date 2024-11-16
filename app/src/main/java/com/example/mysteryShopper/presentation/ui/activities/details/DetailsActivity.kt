@@ -19,6 +19,7 @@ import com.example.mysteryShopper.databinding.ActivityHomeBinding
 import com.example.mysteryShopper.presentation.ui.activities.expandedView.ExpandedViewActivity
 import com.example.mysteryShopper.presentation.ui.common.BaseActivity
 import dagger.hilt.android.AndroidEntryPoint
+import jp.wasabeef.recyclerview.animators.SlideInLeftAnimator
 
 @SuppressLint("CustomSplashScreen")
 @AndroidEntryPoint
@@ -73,6 +74,9 @@ class DetailsActivity : BaseActivity<ActivityDetailsBinding>() {
                                 // Handle item click for comics
                                 openExpandedView(section)                            }
                             binding.comicsTitle.visibility = View.VISIBLE
+                            val animator = SlideInLeftAnimator()
+                            animator.addDuration = 500
+                            binding.comicsRecyclerView.itemAnimator = animator
                         }
                     }
                 }
@@ -91,6 +95,9 @@ class DetailsActivity : BaseActivity<ActivityDetailsBinding>() {
                                 // Handle item click for comics
                                 openExpandedView(section)                            }
                             binding.seriesTitle.visibility = View.VISIBLE
+                            val animator = SlideInLeftAnimator()
+                            animator.addDuration = 500
+                            binding.seriesRecyclerView.itemAnimator = animator
                         }
 
                     }
@@ -110,6 +117,9 @@ class DetailsActivity : BaseActivity<ActivityDetailsBinding>() {
                                 // Handle item click for comics
                                 openExpandedView(section)                            }
                             binding.storiesTitle.visibility = View.VISIBLE
+                            val animator = SlideInLeftAnimator()
+                            animator.addDuration = 500
+                            binding.storiesRecyclerView.itemAnimator = animator
                         }
                     }
                 }
@@ -128,6 +138,9 @@ class DetailsActivity : BaseActivity<ActivityDetailsBinding>() {
                                 // Handle item click for comics
                                 openExpandedView(section)                            }
                             binding.eventsTitle.visibility = View.VISIBLE
+                            val animator = SlideInLeftAnimator()
+                            animator.addDuration = 500
+                            binding.eventsRecyclerView.itemAnimator = animator
                         }
                     }
                 }

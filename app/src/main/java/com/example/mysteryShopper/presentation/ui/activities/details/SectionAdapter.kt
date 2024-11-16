@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.mysteryShopper.data.model.SectionModel
 import com.example.mysteryShopper.databinding.ItemHorizontalCardBinding
 import com.example.mysteryShopper.databinding.ListItemCharacterBinding
@@ -30,7 +31,8 @@ class SectionAdapter ( private val items: List<SectionModel> , private val onIte
             Glide.with(itemView.context)
                 .load(section.thumbnailUrl.replace("http://", "https://"))
                 .placeholder(com.example.mysteryShopper.R.drawable.ic_launcher_foreground) // Add placeholder drawable
-                .error(com.example.mysteryShopper.R.drawable.ic_launcher_foreground) // Add error drawable
+                .error(com.example.mysteryShopper.R.drawable.ic_launcher_foreground)
+                .transition(DrawableTransitionOptions.withCrossFade())
                 .diskCacheStrategy(DiskCacheStrategy.ALL) // Cache for smooth scrolling
                 .into(binding.itemImage)
 

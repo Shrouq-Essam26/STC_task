@@ -3,6 +3,7 @@ package com.example.mysteryShopper.presentation.ui.activities.details
 import CharacterAdapter
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -25,8 +26,9 @@ class DetailsActivity : BaseActivity<ActivityDetailsBinding>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
- // Retrieve CharacterModel from Intent
+        // Retrieve CharacterModel from Intent
         val character = intent.getSerializableExtra("character") as CharacterModel
+        Log.e("Chacter", character.toString())
 
         if (character != null) {
             // Load data into views
@@ -36,52 +38,77 @@ class DetailsActivity : BaseActivity<ActivityDetailsBinding>() {
 
             binding.characterName.text = character.name
             binding.characterDescription.text = character.description ?: "No description available."
+
+            viewModel.fetchSection(character.resourceURI.replace("http://", "https://"), "comics")
+            viewModel.fetchSection(character.resourceURI.replace("http://", "https://"), "series")
+            viewModel.fetchSection(character.resourceURI.replace("http://", "https://"), "stories")
+            viewModel.fetchSection(character.resourceURI.replace("http://", "https://"), "events")
+        }
+        setupRecyclerViews()
+        setupObservers()
+    }
+    private fun setupRecyclerViews() {
+        binding.comicsRecyclerView.layoutManager =
+            LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        binding.seriesRecyclerView.layoutManager =
+            LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        binding.storiesRecyclerView.layoutManager =
+            LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        binding.eventsRecyclerView.layoutManager =
+            LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+    }
+    private fun setupObservers() {
+        viewModel.comics.observe(this) { resource ->
+            when (resource.status) {
+                Status.SUCCESS -> {
+                    resource.data?.let { data ->
+                        binding.comicsRecyclerView.adapter = SectionAdapter(data)
+                    }
+                }
+                Status.ERROR -> showToast("Failed to load comics: ${resource.message}")
+                Status.LOADING -> showToast("Loading comics...")
+            }
+        }
+
+        viewModel.series.observe(this) { resource ->
+            when (resource.status) {
+                Status.SUCCESS -> {
+                    resource.data?.let { data ->
+                        binding.seriesRecyclerView.adapter = SectionAdapter(data)
+                    }
+                }
+                Status.ERROR -> showToast("Failed to load series: ${resource.message}")
+                Status.LOADING -> showToast("Loading series...")
+            }
+        }
+
+        viewModel.stories.observe(this) { resource ->
+            when (resource.status) {
+                Status.SUCCESS -> {
+                    resource.data?.let { data ->
+                        binding.storiesRecyclerView.adapter = SectionAdapter(data)
+                    }
+                }
+                Status.ERROR -> showToast("Failed to load stories: ${resource.message}")
+                Status.LOADING -> showToast("Loading stories...")
+            }
+        }
+
+        viewModel.events.observe(this) { resource ->
+            when (resource.status) {
+                Status.SUCCESS -> {
+                    resource.data?.let { data ->
+                        binding.eventsRecyclerView.adapter = SectionAdapter(data)
+                    }
+                }
+                Status.ERROR -> showToast("Failed to load events: ${resource.message}")
+                Status.LOADING -> showToast("Loading events...")
+            }
+        }
     }
 
-//    private fun setupRecyclerView() {
-//        characterAdapter = CharacterAdapter { character ->
-//            Toast.makeText(this, "Clicked on: ${character.name}", Toast.LENGTH_SHORT).show()
-//        }
-//
-//        binding.recyclerViewCharacters.apply {
-//            layoutManager = LinearLayoutManager(this@HomeActivity)
-//            adapter = characterAdapter
-//        }
-//
-//        binding.recyclerViewCharacters.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-//            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-//                super.onScrolled(recyclerView, dx, dy)
-//
-//                val layoutManager = recyclerView.layoutManager as LinearLayoutManager
-//                val visibleItemCount = layoutManager.childCount
-//                val totalItemCount = layoutManager.itemCount
-//                val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
-//
-//                if (!viewModel.isLoading && firstVisibleItemPosition + visibleItemCount >= totalItemCount) {
-//                    characterAdapter.showLoadingFooter(true)
-//                    viewModel.loadCharacters()
-//                }
-//            }
-//        })
-//    }
-//
-//    private fun setupObservers() {
-//        viewModel.characters.observe(this) { resource ->
-//            when (resource?.status) {
-//                Status.LOADING -> {
-//                    if (viewModel.currentPage == 0) dialog.show()
-//                }
-//                Status.SUCCESS -> {
-//                    dialog.dismiss()
-//                    characterAdapter.submitList(resource.data)
-//                    characterAdapter.showLoadingFooter(false)
-//                }
-//                Status.ERROR -> {
-//                    dialog.dismiss()
-//                    characterAdapter.showLoadingFooter(false)
-//                    Toast.makeText(this, "Error: ${resource.message}", Toast.LENGTH_SHORT).show()
-//                }
-//            }
-//        }
-//    }
-}}
+    private fun showToast(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
+}

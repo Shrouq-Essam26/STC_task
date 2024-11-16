@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import com.example.mysteryShopper.core.Resource
 import com.example.mysteryShopper.data.model.CharacterModel
 import com.example.mysteryShopper.domain.entities.AppConfigEntity
-import com.example.mysteryShopper.domain.usecases.GetAppConfigUseCase
 import com.example.mysteryShopper.domain.usecases.GetCharactersUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers

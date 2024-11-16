@@ -25,6 +25,11 @@
             android:exported="true">
 
         </activity>
+        <activity
+            android:name="com.example.mysteryShopper.presentation.ui.activities.expandedView.ExpandedViewActivity"
+            android:exported="true">
+
+        </activity>
     </application>
 
 </manifest>

@@ -2,6 +2,7 @@ package com.example.mysteryShopper.presentation.ui.activities.details
 
 import CharacterAdapter
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -12,8 +13,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.mysteryShopper.core.Status
 import com.example.mysteryShopper.data.model.CharacterModel
+import com.example.mysteryShopper.data.model.SectionModel
 import com.example.mysteryShopper.databinding.ActivityDetailsBinding
 import com.example.mysteryShopper.databinding.ActivityHomeBinding
+import com.example.mysteryShopper.presentation.ui.activities.expandedView.ExpandedViewActivity
 import com.example.mysteryShopper.presentation.ui.common.BaseActivity
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -66,7 +69,9 @@ class DetailsActivity : BaseActivity<ActivityDetailsBinding>() {
                 Status.SUCCESS -> {
                     resource.data?.let { data ->
                         if (!data.isNullOrEmpty()) {
-                            binding.comicsRecyclerView.adapter = SectionAdapter(data)
+                            binding.comicsRecyclerView.adapter = SectionAdapter(data){ section ->
+                                // Handle item click for comics
+                                openExpandedView(section)                            }
                             binding.comicsTitle.visibility = View.VISIBLE
                         }
                     }
@@ -82,7 +87,9 @@ class DetailsActivity : BaseActivity<ActivityDetailsBinding>() {
                 Status.SUCCESS -> {
                     resource.data?.let { data ->
                         if (!data.isNullOrEmpty()) {
-                            binding.seriesRecyclerView.adapter = SectionAdapter(data)
+                            binding.seriesRecyclerView.adapter = SectionAdapter(data){ section ->
+                                // Handle item click for comics
+                                openExpandedView(section)                            }
                             binding.seriesTitle.visibility = View.VISIBLE
                         }
 
@@ -99,7 +106,9 @@ class DetailsActivity : BaseActivity<ActivityDetailsBinding>() {
                 Status.SUCCESS -> {
                     resource.data?.let { data ->
                         if (!data.isNullOrEmpty()) {
-                            binding.storiesRecyclerView.adapter = SectionAdapter(data)
+                            binding.storiesRecyclerView.adapter = SectionAdapter(data){ section ->
+                                // Handle item click for comics
+                                openExpandedView(section)                            }
                             binding.storiesTitle.visibility = View.VISIBLE
                         }
                     }
@@ -115,7 +124,9 @@ class DetailsActivity : BaseActivity<ActivityDetailsBinding>() {
                 Status.SUCCESS -> {
                     resource.data?.let { data ->
                         if (!data.isNullOrEmpty()) {
-                            binding.eventsRecyclerView.adapter = SectionAdapter(data)
+                            binding.eventsRecyclerView.adapter = SectionAdapter(data){ section ->
+                                // Handle item click for comics
+                                openExpandedView(section)                            }
                             binding.eventsTitle.visibility = View.VISIBLE
                         }
                     }
@@ -125,6 +136,13 @@ class DetailsActivity : BaseActivity<ActivityDetailsBinding>() {
                 Status.LOADING -> showToast("Loading events...")
             }
         }
+    }
+
+    private fun openExpandedView(section: SectionModel) {
+        val intent = Intent(this, ExpandedViewActivity::class.java).apply {
+            putExtra("section", section)
+        }
+        startActivity(intent)
     }
 
     private fun showToast(message: String) {

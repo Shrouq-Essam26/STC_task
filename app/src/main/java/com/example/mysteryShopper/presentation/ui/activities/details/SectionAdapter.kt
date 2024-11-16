@@ -9,7 +9,7 @@ import com.example.mysteryShopper.data.model.SectionModel
 import com.example.mysteryShopper.databinding.ItemHorizontalCardBinding
 import com.example.mysteryShopper.databinding.ListItemCharacterBinding
 
-class SectionAdapter (private val items: List<SectionModel>): RecyclerView.Adapter<SectionAdapter.SectionViewHolder>() {
+class SectionAdapter ( private val items: List<SectionModel> , private val onItemClicked: (SectionModel) -> Unit ): RecyclerView.Adapter<SectionAdapter.SectionViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SectionViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -33,6 +33,10 @@ class SectionAdapter (private val items: List<SectionModel>): RecyclerView.Adapt
                 .error(com.example.mysteryShopper.R.drawable.ic_launcher_foreground) // Add error drawable
                 .diskCacheStrategy(DiskCacheStrategy.ALL) // Cache for smooth scrolling
                 .into(binding.itemImage)
+
+            binding.root.setOnClickListener {
+                onItemClicked(section)
+            }
         }
     }
 }

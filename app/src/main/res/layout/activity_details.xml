@@ -11,14 +11,15 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_25sdp">
 
         <!-- Character Image -->
         <ImageView
             android:id="@+id/characterImageView"
             android:layout_width="0dp"
             android:layout_height="200dp"
-            android:scaleType="centerCrop"
+            android:scaleType="fitXY"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
@@ -46,6 +47,7 @@
             android:text="AIM is a terrorist organization bent on destroying the world."
             android:textColor="#FFFFFF"
             android:textSize="14sp"
+            android:gravity="center"
             app:layout_constraintTop_toBottomOf="@id/characterName"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

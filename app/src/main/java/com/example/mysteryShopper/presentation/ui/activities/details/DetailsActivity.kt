@@ -4,6 +4,7 @@ import CharacterAdapter
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -47,6 +48,7 @@ class DetailsActivity : BaseActivity<ActivityDetailsBinding>() {
         setupRecyclerViews()
         setupObservers()
     }
+
     private fun setupRecyclerViews() {
         binding.comicsRecyclerView.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
@@ -57,14 +59,19 @@ class DetailsActivity : BaseActivity<ActivityDetailsBinding>() {
         binding.eventsRecyclerView.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
     }
+
     private fun setupObservers() {
         viewModel.comics.observe(this) { resource ->
             when (resource.status) {
                 Status.SUCCESS -> {
                     resource.data?.let { data ->
-                        binding.comicsRecyclerView.adapter = SectionAdapter(data)
+                        if (!data.isNullOrEmpty()) {
+                            binding.comicsRecyclerView.adapter = SectionAdapter(data)
+                            binding.comicsTitle.visibility = View.VISIBLE
+                        }
                     }
                 }
+
                 Status.ERROR -> showToast("Failed to load comics: ${resource.message}")
                 Status.LOADING -> showToast("Loading comics...")
             }
@@ -74,9 +81,14 @@ class DetailsActivity : BaseActivity<ActivityDetailsBinding>() {
             when (resource.status) {
                 Status.SUCCESS -> {
                     resource.data?.let { data ->
-                        binding.seriesRecyclerView.adapter = SectionAdapter(data)
+                        if (!data.isNullOrEmpty()) {
+                            binding.seriesRecyclerView.adapter = SectionAdapter(data)
+                            binding.seriesTitle.visibility = View.VISIBLE
+                        }
+
                     }
                 }
+
                 Status.ERROR -> showToast("Failed to load series: ${resource.message}")
                 Status.LOADING -> showToast("Loading series...")
             }
@@ -86,9 +98,13 @@ class DetailsActivity : BaseActivity<ActivityDetailsBinding>() {
             when (resource.status) {
                 Status.SUCCESS -> {
                     resource.data?.let { data ->
-                        binding.storiesRecyclerView.adapter = SectionAdapter(data)
+                        if (!data.isNullOrEmpty()) {
+                            binding.storiesRecyclerView.adapter = SectionAdapter(data)
+                            binding.storiesTitle.visibility = View.VISIBLE
+                        }
                     }
                 }
+
                 Status.ERROR -> showToast("Failed to load stories: ${resource.message}")
                 Status.LOADING -> showToast("Loading stories...")
             }
@@ -98,9 +114,13 @@ class DetailsActivity : BaseActivity<ActivityDetailsBinding>() {
             when (resource.status) {
                 Status.SUCCESS -> {
                     resource.data?.let { data ->
-                        binding.eventsRecyclerView.adapter = SectionAdapter(data)
+                        if (!data.isNullOrEmpty()) {
+                            binding.eventsRecyclerView.adapter = SectionAdapter(data)
+                            binding.eventsTitle.visibility = View.VISIBLE
+                        }
                     }
                 }
+
                 Status.ERROR -> showToast("Failed to load events: ${resource.message}")
                 Status.LOADING -> showToast("Loading events...")
             }

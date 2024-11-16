@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.mysteryShopper.data.model.SectionModel
 import com.example.mysteryShopper.databinding.ItemHorizontalCardBinding
 import com.example.mysteryShopper.databinding.ListItemCharacterBinding
@@ -28,6 +29,9 @@ class SectionAdapter (private val items: List<SectionModel>): RecyclerView.Adapt
             binding.itemTitle.text = section.title
             Glide.with(itemView.context)
                 .load(section.thumbnailUrl.replace("http://", "https://"))
+                .placeholder(com.example.mysteryShopper.R.drawable.ic_launcher_foreground) // Add placeholder drawable
+                .error(com.example.mysteryShopper.R.drawable.ic_launcher_foreground) // Add error drawable
+                .diskCacheStrategy(DiskCacheStrategy.ALL) // Cache for smooth scrolling
                 .into(binding.itemImage)
         }
     }

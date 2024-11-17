@@ -55,8 +55,8 @@ abstract class BaseActivity<B : ViewBinding> : AppCompatActivity() {
     //region Alert//
     private fun initDialog(){
         val builder: AlertDialog.Builder = AlertDialog.Builder(this)
-        builder.setTitle(getString(R.string.app_name))
-        builder.setMessage("message")
+        builder.setTitle("Marvel App")
+        builder.setMessage("Loading ...")
         builder.setCancelable(false)
         dialog = builder.create()
     }
